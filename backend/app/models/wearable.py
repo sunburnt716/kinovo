@@ -1,11 +1,11 @@
 import uuid
 
 from sqlalchemy import Boolean, ForeignKey, SmallInteger, String
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin, UUIDMixin
 from app.models.user import Patient
+from app.models.guid import GUID
 from datetime import datetime
 
 
@@ -16,7 +16,7 @@ class WearableDevice(UUIDMixin, TimestampMixin, Base):
 
     device_id: Mapped[str] = mapped_column(String(50), unique=True, nullable=False, index=True)
     patient_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(as_uuid=True),
         ForeignKey("patients.id", ondelete="SET NULL"),
         nullable=True,
         index=True,

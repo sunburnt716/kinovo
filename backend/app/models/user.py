@@ -3,7 +3,8 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Boolean, Enum, ForeignKey, SmallInteger, String, Text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import Mapped
+from app.models.guid import GUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin, UUIDMixin
@@ -34,7 +35,7 @@ class User(UUIDMixin, TimestampMixin, Base):
     staff_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
     department: Mapped[str | None] = mapped_column(String(100), nullable=True)
     status: Mapped[UserStatus] = mapped_column(
-        Enum(UserStatus, name="user_status"),
+        Enum(UserStatus, name="user_status", native_enum=False),
         default=UserStatus.pending_verification,
         nullable=False,
     )
@@ -57,12 +58,12 @@ class Patient(UUIDMixin, TimestampMixin, Base):
     emergency_contact: Mapped[str | None] = mapped_column(String(255), nullable=True)
     temporary: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     status: Mapped[PatientStatus] = mapped_column(
-        Enum(PatientStatus, name="patient_status"),
+        Enum(PatientStatus, name="patient_status", native_enum=False),
         default=PatientStatus.waiting,
         nullable=False,
     )
     created_by_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(as_uuid=True),
         ForeignKey("users.id", ondelete="RESTRICT"),
         nullable=False,
     )

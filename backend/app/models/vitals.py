@@ -2,23 +2,23 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Boolean, ForeignKey, Numeric, SmallInteger, String
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
+from app.models.guid import GUID
 
 
 class VitalsRecord(UUIDMixin, Base):
     __tablename__ = "vitals_records"
 
     patient_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(as_uuid=True),
         ForeignKey("patients.id", ondelete="RESTRICT"),
         nullable=False,
         index=True,
     )
     device_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(as_uuid=True),
         ForeignKey("wearable_devices.id", ondelete="RESTRICT"),
         nullable=False,
         index=True,
