@@ -5,25 +5,25 @@ FastAPI backend for the Kinovo triage dashboard.
 ## Prerequisites
 
 - Python 3.12+
-- PostgreSQL 18 (installer available at https://www.postgresql.org/download/)
+- MySQL 8.0+ (installer available at https://dev.mysql.com/downloads/mysql/)
 
-> **Password note:** When setting your Postgres password, avoid special characters like `@`, `/`, `#`, or `?` — they break connection string parsing. Stick to letters and numbers (e.g. `Myuser1234`).
+> **Password note:** When setting your MySQL password, avoid special characters like `@`, `/`, `#`, or `?` — they break connection string parsing. Stick to letters and numbers (e.g. `Myuser1234`).
 
 ---
 
 ## 1. Create the database
 
-Open psql. On Windows with Postgres 18, the default port is **5433**:
+Open the MySQL shell:
 
 ```bash
-psql -U postgres -p 5433
+mysql -u root -p
 ```
 
 Then create the database:
 
 ```sql
 CREATE DATABASE kinovo;
-\q
+EXIT;
 ```
 
 ---
@@ -60,7 +60,7 @@ cp .env.example .env
 Edit `.env`:
 
 ```
-DATABASE_URL=postgresql+asyncpg://postgres:YOUR_PASSWORD@127.0.0.1:5433/kinovo
+DATABASE_URL=mysql+aiomysql://root:YOUR_PASSWORD@127.0.0.1:3306/kinovo
 SECRET_KEY=any-long-random-string
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=480
@@ -69,8 +69,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES=480
 BLE wearable identity is schema-driven. Each registered wearable uses
 `wearable_devices.device_id` as the BLE worker identity and ingestion key.
 No single HM10 address environment variable is required.
-
-> Use `127.0.0.1` instead of `localhost` — asyncpg on Windows can fail to resolve the `localhost` hostname.
 
 ---
 
