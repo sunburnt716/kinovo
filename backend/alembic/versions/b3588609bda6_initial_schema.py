@@ -9,6 +9,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+from app.models.guid import GUID
 
 
 # revision identifiers, used by Alembic.
@@ -30,7 +31,7 @@ def upgrade() -> None:
     sa.Column('staff_id', sa.String(length=100), nullable=True),
     sa.Column('department', sa.String(length=100), nullable=True),
     sa.Column('status', sa.Enum('active', 'pending_verification', name='user_status'), nullable=False),
-    sa.Column('id', sa.UUID(), nullable=False),
+    sa.Column('id', GUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -45,9 +46,9 @@ def upgrade() -> None:
     sa.Column('emergency_contact', sa.String(length=255), nullable=True),
     sa.Column('temporary', sa.Boolean(), nullable=False),
     sa.Column('status', sa.Enum('waiting', 'discharged', 'pending_registration', name='patient_status'), nullable=False),
-    sa.Column('created_by_id', sa.UUID(), nullable=False),
+    sa.Column('created_by_id', GUID(), nullable=False),
     sa.Column('wait_started_at', sa.DateTime(), nullable=False),
-    sa.Column('id', sa.UUID(), nullable=False),
+    sa.Column('id', GUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['created_by_id'], ['users.id'], ondelete='RESTRICT'),
@@ -56,12 +57,12 @@ def upgrade() -> None:
     op.create_index(op.f('ix_patients_email'), 'patients', ['email'], unique=False)
     op.create_table('wearable_devices',
     sa.Column('device_id', sa.String(length=50), nullable=False),
-    sa.Column('patient_id', sa.UUID(), nullable=True),
+    sa.Column('patient_id', GUID(), nullable=True),
     sa.Column('battery_level', sa.SmallInteger(), nullable=True),
     sa.Column('signal_strength', sa.SmallInteger(), nullable=True),
     sa.Column('last_sync_time', sa.DateTime(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=False),
-    sa.Column('id', sa.UUID(), nullable=False),
+    sa.Column('id', GUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ondelete='SET NULL'),
