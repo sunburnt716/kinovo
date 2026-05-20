@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, status
 
-from app.dashboard_store import (
+from app.controllers.dashboard_store import (
     add_patient,
     bind_wearable,
     get_device_health_snapshot as load_device_health_snapshot,

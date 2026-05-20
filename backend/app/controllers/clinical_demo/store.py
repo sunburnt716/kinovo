@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 SEED_FILE = DATA_DIR / "kinovo.dashboard.seed.json"
 
 
@@ -73,7 +73,6 @@ def _build_history(patient: dict) -> tuple[list[dict], list[dict]]:
     critical_moments = []
 
     for second in range(seconds):
-      
         event_reason = _resolve_event_reason(critical_events, second)
         timestamp = _timestamp_at(start_at, second)
         vitals = _build_vitals(base, drift, second, event_reason)
@@ -167,3 +166,6 @@ def load_device_snapshot() -> dict:
         "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "devices": devices,
     }
+
+
+__all__ = ["load_dashboard_snapshot", "load_device_snapshot"]
