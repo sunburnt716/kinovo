@@ -13,6 +13,7 @@ class GUID(TypeDecorator):
     SQLAlchemy's postgres UUID behaviour.
     """
 
+    impl = CHAR
     cache_ok = True
 
     def __init__(self, as_uuid: bool = True):
