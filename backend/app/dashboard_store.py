@@ -7,9 +7,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from uuid import uuid4
 
-from app.controllers.clinical_demo.store import load_dashboard_snapshot
+from app.clinical_demo_store import load_dashboard_snapshot
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 RUNTIME_FILE = DATA_DIR / "dashboard.runtime.json"
 CRITICAL_MOMENTS_FILE = DATA_DIR / "critical_moments.history.json"
 
@@ -544,6 +544,7 @@ def bind_wearable(*, patient_id: str, device_id: str) -> dict:
     if wearable is None:
         raise ValueError("Wearable not found.")
 
+    # Unassign wearable from any previous patient.
     previous_patient_id = wearable.get("assignedPatientId")
     if previous_patient_id and previous_patient_id != patient_id:
         previous = _find_patient(payload, previous_patient_id)
@@ -702,18 +703,3 @@ def get_patient_detail(*, patient_id: str) -> dict:
         "updated_at": payload.get("updated_at", _now_iso()),
         "patient": deepcopy(patient),
     }
-
-
-__all__ = [
-    "get_waiting_room_snapshot",
-    "get_device_health_snapshot",
-    "add_patient",
-    "list_available_wearables",
-    "run_wearable_precheck",
-    "bind_wearable",
-    "unbind_wearable",
-    "release_patient",
-    "get_critical_moments_history",
-    "get_pairing_status",
-    "get_patient_detail",
-]

@@ -57,15 +57,3 @@ def decode_access_token(token: str) -> dict:
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], issuer=TOKEN_ISSUER)
     except JWTError as exc:
         raise ValueError("Invalid or expired session token.") from exc
-
-
-__all__ = [
-    "hash_password",
-    "verify_password",
-    "create_access_token",
-    "create_reset_token",
-    "hash_reset_token",
-    "verify_reset_token",
-    "decode_access_token",
-    "RESET_TOKEN_EXPIRE_SECONDS",
-]

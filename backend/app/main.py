@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.controllers.auth_store import (
+from app.auth_store import (
     read_settings_for_user,
     update_theme_mode,
 )

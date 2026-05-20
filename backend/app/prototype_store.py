@@ -14,7 +14,7 @@ from app.schemas.prototype import (
     UserSettingsResponse,
     UserStore,
 )
-from app.controllers.auth_security import hash_password, verify_password
+from app.auth_security import hash_password, verify_password
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 USERS_FILE = DATA_DIR / "users.json"

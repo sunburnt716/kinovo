@@ -2,7 +2,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from app.controllers.auth.security import (
+from app.auth_security import (
     RESET_TOKEN_EXPIRE_SECONDS,
     create_reset_token,
     hash_password,
@@ -27,7 +27,7 @@ from app.schemas.auth_schemas import (
     UserStore,
 )
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 USERS_FILE = DATA_DIR / "users.json"
 PATIENTS_SNAPSHOT_FILE = DATA_DIR / "patients.snapshot.json"
 DEVICE_SNAPSHOT_FILE = DATA_DIR / "device.snapshot.json"
@@ -245,18 +245,3 @@ def read_device_snapshot() -> dict:
     payload = _read_json(DEVICE_SNAPSHOT_FILE)
     validated = DeviceSnapshotStore.model_validate(payload)
     return validated.model_dump(mode="json")
-
-
-__all__ = [
-    "read_user_store",
-    "read_settings_for_user",
-    "update_theme_mode",
-    "create_or_update_staff_user",
-    "authenticate_staff_user",
-    "change_user_password",
-    "request_password_reset",
-    "confirm_password_reset",
-    "delete_user_account",
-    "read_patients_snapshot",
-    "read_device_snapshot",
-]
