@@ -26,7 +26,6 @@ def upgrade() -> None:
     op.drop_column("vitals_records", "essential_vitals_only")
     op.drop_column("vitals_records", "buffered_during_dead_zone")
     op.drop_column("vitals_records", "backfill_batch_id")
-    op.execute("DROP TYPE IF EXISTS ack_state")
 
 
 def downgrade() -> None:
@@ -34,7 +33,6 @@ def downgrade() -> None:
     op.add_column("vitals_records", sa.Column("buffered_during_dead_zone", sa.Boolean(), nullable=False, server_default="false"))
     op.add_column("vitals_records", sa.Column("essential_vitals_only", sa.Boolean(), nullable=False, server_default="false"))
     op.add_column("vitals_records", sa.Column("retry_count", sa.Integer(), nullable=False, server_default="0"))
-    op.execute("CREATE TYPE ack_state AS ENUM ('pending', 'acknowledged', 'failed')")
     op.add_column("vitals_records", sa.Column("ack_state", sa.Enum("pending", "acknowledged", "failed", name="ack_state"), nullable=False, server_default="acknowledged"))
     op.add_column("vitals_records", sa.Column("checksum", sa.String(64), nullable=False, server_default=""))
     op.add_column("vitals_records", sa.Column("sequence_number", sa.Integer(), nullable=False, server_default="0"))
