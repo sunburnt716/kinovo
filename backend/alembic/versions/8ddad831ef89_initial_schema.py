@@ -1,18 +1,19 @@
 """initial schema
 
-Revision ID: b3588609bda6
+Revision ID: 8ddad831ef89
 Revises: 
-Create Date: 2026-04-16 04:16:41.445636
+Create Date: 2026-05-20 22:38:21.574356
 
 """
 from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+from app.models.guid import GUID
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'b3588609bda6'
+revision: str = '8ddad831ef89'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -29,10 +30,10 @@ def upgrade() -> None:
     sa.Column('facility_id', sa.String(length=100), nullable=False),
     sa.Column('staff_id', sa.String(length=100), nullable=True),
     sa.Column('department', sa.String(length=100), nullable=True),
-    sa.Column('status', sa.Enum('active', 'pending_verification', name='user_status'), nullable=False),
-    sa.Column('id', sa.UUID(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('status', sa.Enum('active', 'pending_verification', name='user_status', native_enum=False), nullable=False),
+    sa.Column('id', GUID(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
@@ -44,36 +45,57 @@ def upgrade() -> None:
     sa.Column('current_medications', sa.Text(), nullable=True),
     sa.Column('emergency_contact', sa.String(length=255), nullable=True),
     sa.Column('temporary', sa.Boolean(), nullable=False),
-    sa.Column('status', sa.Enum('waiting', 'discharged', 'pending_registration', name='patient_status'), nullable=False),
-    sa.Column('created_by_id', sa.UUID(), nullable=False),
+    sa.Column('status', sa.Enum('waiting', 'discharged', 'pending_registration', name='patient_status', native_enum=False), nullable=False),
+    sa.Column('created_by_id', GUID(), nullable=False),
     sa.Column('wait_started_at', sa.DateTime(), nullable=False),
-    sa.Column('id', sa.UUID(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('id', GUID(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['created_by_id'], ['users.id'], ondelete='RESTRICT'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_patients_email'), 'patients', ['email'], unique=False)
     op.create_table('wearable_devices',
     sa.Column('device_id', sa.String(length=50), nullable=False),
-    sa.Column('patient_id', sa.UUID(), nullable=True),
+    sa.Column('patient_id', GUID(), nullable=True),
     sa.Column('battery_level', sa.SmallInteger(), nullable=True),
     sa.Column('signal_strength', sa.SmallInteger(), nullable=True),
     sa.Column('last_sync_time', sa.DateTime(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=False),
-    sa.Column('id', sa.UUID(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('id', GUID(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ondelete='SET NULL'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_wearable_devices_device_id'), 'wearable_devices', ['device_id'], unique=True)
     op.create_index(op.f('ix_wearable_devices_patient_id'), 'wearable_devices', ['patient_id'], unique=False)
+    op.create_table('vitals_records',
+    sa.Column('patient_id', GUID(), nullable=False),
+    sa.Column('device_id', GUID(), nullable=False),
+    sa.Column('blood_oxygen', sa.SmallInteger(), nullable=False),
+    sa.Column('heart_beat', sa.SmallInteger(), nullable=False),
+    sa.Column('stress', sa.Numeric(precision=5, scale=2), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.Column('is_critical', sa.Boolean(), nullable=False),
+    sa.Column('critical_reason', sa.String(length=100), nullable=True),
+    sa.Column('id', GUID(), nullable=False),
+    sa.ForeignKeyConstraint(['device_id'], ['wearable_devices.id'], ondelete='RESTRICT'),
+    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ondelete='RESTRICT'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_vitals_records_device_id'), 'vitals_records', ['device_id'], unique=False)
+    op.create_index(op.f('ix_vitals_records_patient_id'), 'vitals_records', ['patient_id'], unique=False)
+    op.create_index(op.f('ix_vitals_records_timestamp'), 'vitals_records', ['timestamp'], unique=False)
     # ### end Alembic commands ###
 
 
 def downgrade() -> None:
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_index(op.f('ix_vitals_records_timestamp'), table_name='vitals_records')
+    op.drop_index(op.f('ix_vitals_records_patient_id'), table_name='vitals_records')
+    op.drop_index(op.f('ix_vitals_records_device_id'), table_name='vitals_records')
+    op.drop_table('vitals_records')
     op.drop_index(op.f('ix_wearable_devices_patient_id'), table_name='wearable_devices')
     op.drop_index(op.f('ix_wearable_devices_device_id'), table_name='wearable_devices')
     op.drop_table('wearable_devices')
