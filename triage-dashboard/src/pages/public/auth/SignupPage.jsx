@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ACCOUNT_TYPES } from "../constants/accountTypes";
-import { APP_ROUTES } from "../constants/routes";
-import { submitSignup } from "../services/authService";
+import { ACCOUNT_TYPES } from "../../../constants/accountTypes";
+import { APP_ROUTES } from "../../../constants/routes";
+import { submitSignup } from "../../../services/authService";
 import "./Auth.css";
 
 const INITIAL_STATE = {
@@ -27,7 +27,7 @@ const STAFF_FIELDS = [
   { name: "department", label: "Department (Optional)", type: "text" },
 ];
 
-function Signup() {
+function SignupPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [error, setError] = useState("");
@@ -208,4 +208,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupPage;

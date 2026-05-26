@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { APP_ROUTES } from "../constants/routes";
-import { loadCriticalMomentsSnapshot } from "../services/dashboardApi";
+import { APP_ROUTES } from "../../../constants/routes";
+import { loadCriticalMomentsSnapshot } from "../../../services/dashboardApi";
 
-function IntakePairingPage() {
+function PatientHistoryPage() {
   const [moments, setMoments] = useState([]);
 
   useEffect(() => {
@@ -103,4 +103,4 @@ function IntakePairingPage() {
   );
 }
 
-export default IntakePairingPage;
+export default PatientHistoryPage;

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import AddPatientModal from "../components/dashboard/AddPatientModal";
-import PairDeviceModal from "../components/dashboard/PairDeviceModal";
-import PatientCard from "../components/dashboard/PatientCard";
-import PatientDetailPanel from "../components/dashboard/PatientDetailPanel";
-import { useVitals } from "../providers/useVitals";
-import { getCurrentSession } from "../services/authService";
+import AddPatientModal from "../../../components/dashboard/AddPatientModal";
+import PairDeviceModal from "../../../components/dashboard/PairDeviceModal";
+import PatientCard from "../../../components/dashboard/PatientCard";
+import PatientDetailPanel from "../../../components/dashboard/PatientDetailPanel";
+import { useVitals } from "../../../providers/useVitals";
+import { getCurrentSession } from "../../../services/authService";
 import "./Dashboard.css";
 
 function playAlertTone() {
@@ -23,7 +23,7 @@ function playAlertTone() {
   oscillator.stop(audioContext.currentTime + 0.12);
 }
 
-function DashboardContent() {
+function TriageDashboardContent() {
   const session = useMemo(
     () =>
       getCurrentSession() ?? {
@@ -259,8 +259,8 @@ function DashboardContent() {
   );
 }
 
-function Dashboard() {
-  return <DashboardContent />;
+function TriageDashboardPage() {
+  return <TriageDashboardContent />;
 }
 
-export default Dashboard;
+export default TriageDashboardPage;

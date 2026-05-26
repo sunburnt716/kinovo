@@ -1,5 +1,7 @@
 export const APP_ROUTES = {
   ROOT: "/",
+  PUBLIC_SOLUTIONS: "/solutions",
+  PUBLIC_RESEARCH: "/research",
   LOGIN: "/login",
   SIGNUP: "/signup",
   FORGOT_PASSWORD: "/forgot-password",

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import DeviceHealthGrid from "../components/dashboard/DeviceHealthGrid";
-import { loadDeviceHealthSnapshot } from "../services/dashboardApi";
+import DeviceHealthGrid from "../../../components/dashboard/DeviceHealthGrid";
+import { loadDeviceHealthSnapshot } from "../../../services/dashboardApi";
 
 function DeviceHealthPage() {
   const [devices, setDevices] = useState([]);

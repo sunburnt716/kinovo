@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ACCOUNT_TYPES } from "../constants/accountTypes";
-import { APP_ROUTES } from "../constants/routes";
-import { submitLogin } from "../services/authService";
+import { ACCOUNT_TYPES } from "../../../constants/accountTypes";
+import { APP_ROUTES } from "../../../constants/routes";
+import { submitLogin } from "../../../services/authService";
 import "./Auth.css";
 
 const INITIAL_STATE = {
@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function Login() {
+function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [error, setError] = useState("");
@@ -132,4 +132,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

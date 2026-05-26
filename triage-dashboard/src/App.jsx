@@ -2,15 +2,17 @@ import { Navigate, Outlet, Route, Routes, useParams } from "react-router-dom";
 import AppNavbar from "./components/layout/AppNavbar";
 import PortalShell from "./components/layout/PortalShell";
 import { APP_ROUTES } from "./constants/routes";
-import Dashboard from "./pages/Dashboard";
-import DashboardPatientTemplate from "./pages/DashboardPatientTemplate";
-import DeviceHealthPage from "./pages/DeviceHealthPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import IntakePairingPage from "./pages/IntakePairingPage";
-import LandingPage from "./pages/LandingPage";
-import Login from "./pages/Signin";
-import Settings from "./pages/Settings";
-import Signup from "./pages/Signup";
+import LandingPage from "./pages/public/landing/LandingPage";
+import SolutionsPage from "./pages/public/solutions/SolutionsPage";
+import ResearchPage from "./pages/public/research/ResearchPage";
+import LoginPage from "./pages/public/auth/LoginPage";
+import SignupPage from "./pages/public/auth/SignupPage";
+import ForgotPasswordPage from "./pages/public/auth/ForgotPasswordPage";
+import TriageDashboardPage from "./pages/portal/triage/TriageDashboardPage";
+import PatientDetailTemplatePage from "./pages/portal/triage/PatientDetailTemplatePage";
+import PatientHistoryPage from "./pages/portal/history/PatientHistoryPage";
+import DeviceHealthPage from "./pages/portal/devices/DeviceHealthPage";
+import SettingsPage from "./pages/portal/settings/SettingsPage";
 import VitalsProvider from "./providers/VitalsProvider";
 import RequireAuth from "./routes/RequireAuth";
 import RequireRole from "./routes/RequireRole";
@@ -52,11 +54,16 @@ function App() {
     <Routes>
       {/* Landing page — uses its own navbar/layout */}
       <Route path={APP_ROUTES.ROOT} element={<LandingPage />} />
+      <Route path={APP_ROUTES.PUBLIC_SOLUTIONS} element={<SolutionsPage />} />
+      <Route path={APP_ROUTES.PUBLIC_RESEARCH} element={<ResearchPage />} />
 
       <Route element={<PublicShell />}>
-        <Route path={APP_ROUTES.LOGIN} element={<Login />} />
-        <Route path={APP_ROUTES.SIGNUP} element={<Signup />} />
-        <Route path={APP_ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
+        <Route path={APP_ROUTES.SIGNUP} element={<SignupPage />} />
+        <Route
+          path={APP_ROUTES.FORGOT_PASSWORD}
+          element={<ForgotPasswordPage />}
+        />
         <Route
           path={APP_ROUTES.AUTH_PENDING_VERIFICATION}
           element={
@@ -103,12 +110,12 @@ function App() {
           element={<Navigate to={APP_ROUTES.PORTAL_TRIAGE} replace />}
         />
         <Route element={<PortalOperationalShell />}>
-          <Route path="triage" element={<Dashboard />} />
+          <Route path="triage" element={<TriageDashboardPage />} />
           <Route
             path="triage/patient/:patientId"
-            element={<DashboardPatientTemplate />}
+            element={<PatientDetailTemplatePage />}
           />
-          <Route path="intake" element={<IntakePairingPage />} />
+          <Route path="intake" element={<PatientHistoryPage />} />
           <Route path="devices" element={<DeviceHealthPage />} />
         </Route>
         <Route
@@ -122,7 +129,7 @@ function App() {
             </RequireRole>
           }
         />
-        <Route path="settings" element={<Settings />} />
+        <Route path="settings" element={<SettingsPage />} />
         <Route
           path="patient"
           element={

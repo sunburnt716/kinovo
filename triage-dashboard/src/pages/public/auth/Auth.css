@@ -1,5 +1,5 @@
 /*
- * Auth pages (Signin / Signup / ForgotPassword) — landing design language.
+ * Auth pages (Login / Signup / ForgotPassword) — landing design language.
  * Uses ink / brand tokens from @theme.
  */
 
@@ -10,7 +10,8 @@
   width: 100%;
   padding: 56px 48px;
   box-sizing: border-box;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       80% 60% at 70% -10%,
       rgba(61, 99, 255, 0.1),
       transparent 60%
@@ -25,7 +26,8 @@
 }
 
 :root[data-theme="dark"] .auth-shell {
-  background: radial-gradient(
+  background:
+    radial-gradient(
       80% 60% at 70% -10%,
       rgba(61, 99, 255, 0.18),
       transparent 60%
@@ -260,20 +262,15 @@
     box-shadow 160ms ease;
 }
 
-.auth-field--full textarea {
-  min-height: 84px;
-  resize: vertical;
-}
-
 .auth-field input:focus,
 .auth-field select:focus,
 .auth-field--full input:focus,
 .auth-field--full select:focus,
 .auth-field--full textarea:focus {
   outline: none;
-  border-color: var(--color-brand-500);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--color-brand-500) 18%, transparent);
+  border-color: var(--color-brand-400);
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--color-brand-100) 70%, transparent);
 }
 
 :root[data-theme="dark"] .auth-field input,
@@ -282,54 +279,41 @@
 :root[data-theme="dark"] .auth-field--full select,
 :root[data-theme="dark"] .auth-field--full textarea {
   border-color: var(--color-ink-700);
-  background: color-mix(in srgb, var(--color-ink-900) 60%, transparent);
+  background: color-mix(in srgb, var(--color-ink-800) 60%, transparent);
   color: var(--color-ink-50);
 }
 
-.auth-error {
+.auth-error,
+.auth-note {
   grid-column: 1 / -1;
-  border: 1px solid color-mix(
-      in srgb,
-      var(--color-signal-critical) 50%,
-      var(--color-ink-200)
-    );
+  margin: 0;
+  padding: 11px 14px;
   border-radius: 12px;
-  color: var(--color-signal-critical);
-  background: color-mix(in srgb, var(--color-signal-critical) 8%, #ffffff);
-  padding: 10px 14px;
-  font-size: 13.5px;
+  font-size: 14px;
+}
+
+.auth-error {
+  color: #b42318;
+  background: color-mix(in srgb, #ffebeb 85%, transparent);
+  border: 1px solid color-mix(in srgb, #ef4444 28%, transparent);
 }
 
 :root[data-theme="dark"] .auth-error {
-  background: color-mix(
-    in srgb,
-    var(--color-signal-critical) 15%,
-    transparent
-  );
+  color: #fecaca;
+  background: color-mix(in srgb, #7f1d1d 40%, transparent);
+  border-color: color-mix(in srgb, #f87171 40%, transparent);
 }
 
 .auth-note {
-  grid-column: 1 / -1;
-  border: 1px solid color-mix(
-      in srgb,
-      var(--color-brand-500) 30%,
-      var(--color-ink-100)
-    );
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--color-brand-50) 70%, #ffffff);
-  color: var(--color-ink-700);
-  padding: 10px 14px;
-  font-size: 13.5px;
+  color: #175cd3;
+  background: color-mix(in srgb, #eff8ff 90%, transparent);
+  border: 1px solid color-mix(in srgb, #84caff 28%, transparent);
 }
 
 :root[data-theme="dark"] .auth-note {
-  border-color: color-mix(
-    in srgb,
-    var(--color-brand-400) 40%,
-    var(--color-ink-700)
-  );
-  background: color-mix(in srgb, var(--color-brand-500) 12%, transparent);
-  color: var(--color-ink-100);
+  color: #d1e9ff;
+  background: color-mix(in srgb, #1e3a8a 35%, transparent);
+  border-color: color-mix(in srgb, #60a5fa 38%, transparent);
 }
 
 .auth-actions {
@@ -338,66 +322,49 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .auth-link {
-  color: var(--color-ink-600);
-  font-size: 13.5px;
-  text-decoration: underline;
-  text-decoration-color: color-mix(
-    in srgb,
-    var(--color-ink-400) 50%,
-    transparent
-  );
-  text-underline-offset: 3px;
-  transition: color 160ms ease;
+  color: var(--color-brand-700);
+  text-decoration: none;
+  font-weight: 500;
 }
 
 .auth-link:hover {
-  color: var(--color-ink-800);
+  text-decoration: underline;
 }
 
 :root[data-theme="dark"] .auth-link {
-  color: var(--color-ink-200);
-}
-
-:root[data-theme="dark"] .auth-link:hover {
-  color: var(--color-ink-50);
+  color: var(--color-brand-300);
 }
 
 .auth-submit {
   border: 1px solid transparent;
   border-radius: 999px;
+  padding: 10px 18px;
   background: var(--color-ink-800);
   color: #ffffff;
   font: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 11px 22px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 14px 28px -12px rgba(8, 9, 26, 0.55);
   transition:
-    transform 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease;
+    transform 160ms ease,
+    background 160ms ease;
 }
 
 .auth-submit:hover {
   transform: translateY(-1px);
   background: var(--color-ink-900);
-  box-shadow: 0 18px 36px -14px rgba(8, 9, 26, 0.7);
 }
 
 :root[data-theme="dark"] .auth-submit {
   background: #ffffff;
   color: var(--color-ink-900);
-  box-shadow: 0 14px 28px -12px rgba(0, 0, 0, 0.75);
 }
 
 :root[data-theme="dark"] .auth-submit:hover {
   background: var(--color-ink-100);
-  box-shadow: 0 18px 36px -14px rgba(0, 0, 0, 0.85);
 }
 
 @media (max-width: 720px) {
@@ -406,8 +373,11 @@
   }
 
   .auth-card {
-    padding: 32px 24px 36px;
-    border-radius: 22px;
+    padding: 32px 20px;
+  }
+
+  .auth-card h1 {
+    font-size: 28px;
   }
 
   .auth-form {

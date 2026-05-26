@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "../constants/routes";
-import { useTheme } from "../providers/useTheme";
+import { APP_ROUTES } from "../../../constants/routes";
+import { useTheme } from "../../../providers/useTheme";
 import {
   changeCurrentPassword,
   clearCurrentSession,
   deleteCurrentAccount,
   getCurrentSession,
-} from "../services/authService";
+} from "../../../services/authService";
 
-function Settings() {
+function SettingsPage() {
   const { themeMode, resolvedTheme, setThemeMode, themeModes } = useTheme();
   const navigate = useNavigate();
   const session = getCurrentSession();
@@ -240,4 +240,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default SettingsPage;

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-function DashboardPatientTemplate() {
+function PatientDetailTemplatePage() {
   const { patientId } = useParams();
 
   return (
@@ -14,4 +14,4 @@ function DashboardPatientTemplate() {
   );
 }
 
-export default DashboardPatientTemplate;
+export default PatientDetailTemplatePage;
